@@ -1,0 +1,3 @@
+#define TESTDRIVER_API __declspec(dllexport)
+#define TESTDRIVER_API __declspec(dllimport)
+
