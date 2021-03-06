@@ -120,6 +120,7 @@ SQLRETURN  SQL_API SQLAllocEnv(_Out_ SQLHENV* EnvironmentHandle) {
     return SQL_SUCCESS;
 }
 
+//Works if you remove SQLGetFunctions
 SQLRETURN  SQL_API SQLAllocStmt(SQLHDBC ConnectionHandle,
     _Out_ SQLHSTMT* StatementHandle) {
 
@@ -134,13 +135,13 @@ SQLRETURN  SQL_API SQLAllocStmt(SQLHDBC ConnectionHandle,
     if (ConnectionHandle == NULL) {
         return SQL_INVALID_HANDLE;
     }
-    if (StatementHandle == NULL) {
-        return SQL_INVALID_HANDLE;
-    }
+    //if (StatementHandle == NULL) {
+    //    return SQL_INVALID_HANDLE;
+    //}
 
     dbc = (DBC*)ConnectionHandle;
 
-    stmt = (STMT*)malloc(sizeof(STMT));
+    stmt = new(STMT);
 
     if (stmt == NULL) {
         *StatementHandle = SQL_NULL_HSTMT;
@@ -148,7 +149,7 @@ SQLRETURN  SQL_API SQLAllocStmt(SQLHDBC ConnectionHandle,
     }
 
     stmt->dbc = dbc;
-    *StatementHandle = (SQLHSTMT)stmt;
+    *StatementHandle = (SQLHSTMT) stmt;
 
     return SQL_SUCCESS;
 }
@@ -347,6 +348,7 @@ SQLRETURN  SQL_API SQLDataSources(SQLHENV EnvironmentHandle,
 }
 
 SQLRETURN  SQL_API SQLDisconnect(SQLHDBC ConnectionHandle) {
+
     OutputDebugString(L"SQLDisconnect called\n");
 
     return SQL_SUCCESS;
@@ -363,7 +365,12 @@ SQLRETURN SQL_API SQLDriverConnectW
     _Out_opt_ SQLSMALLINT* pcchConnStrOut,
     SQLUSMALLINT        fDriverCompletion
 ) {
-    OutputDebugString(L"SQLDriverConnect called\n");
+    OutputDebugString(L"SQLDriverConnectW called\n");
+    
+    SQLSMALLINT* tmp = new(SQLSMALLINT);
+    *tmp = 2;
+    pcchConnStrOut = tmp;
+
     return SQL_SUCCESS;
 }
 
@@ -380,27 +387,18 @@ SQLRETURN SQL_API SQLDriverConnect(
     _Out_opt_
     SQLSMALLINT* pcchConnStrOut,
     SQLUSMALLINT       fDriverCompletion) {
+
+
     OutputDebugString(L"SQLDriverConnect called\n");
+
+    SQLSMALLINT* tmp = new(SQLSMALLINT);
+    *tmp = 2;
+    pcchConnStrOut = tmp;
+
     return SQL_SUCCESS;
 
 }
 
-SQLRETURN SQL_API SQLDriverConnectA(
-    SQLHDBC         hdbc,
-    SQLHWND         hwnd,
-    _In_reads_(cbConnStrIn)
-    SQLCHAR* szConnStrIn,
-    SQLSMALLINT     cbConnStrIn,
-    _Out_writes_opt_(cbConnStrOutMax)
-    SQLCHAR* szConnStrOut,
-    SQLSMALLINT     cbConnStrOutMax,
-    _Out_opt_
-    SQLSMALLINT* pcbConnStrOut,
-    SQLUSMALLINT    fDriverCompletion) {
-    OutputDebugString(L"SQLDriverConnectA called\n");
-    return SQL_SUCCESS;
-
-}
 
 SQLRETURN SQL_API SQLDrivers(
     SQLHENV         EnvironmentHandle,
@@ -570,6 +568,10 @@ SQLRETURN  SQL_API SQLGetFunctions(SQLHDBC ConnectionHandle,
     _Out_writes_opt_(_Inexpressible_("Buffer length pfExists points to depends on fFunction value."))
     SQLUSMALLINT* Supported) {
     OutputDebugString(L"SQLGetFunctions called\n");
+
+    SQLUSMALLINT* tmp = new(SQLUSMALLINT);
+    *tmp = 0;
+    Supported = tmp;
 
     return SQL_SUCCESS;
 }

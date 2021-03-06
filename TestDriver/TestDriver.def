@@ -25,7 +25,6 @@ EXPORTS
 	SQLDisconnect
 	SQLDriverConnect
 	SQLDriverConnectW
-	SQLDriverConnectA
 	SQLDrivers
 	SQLExecDirect
 	SQLExecute
@@ -44,7 +43,6 @@ EXPORTS
 	SQLSetDescRec
 	SQLGetDiagField
 	SQLGetDiagRec
-	SQLGetFunctions
 	SQLGetInfo
 	SQLNativeSql
 	SQLEndTran
